@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper file: 실행 할 쿼리 문을 저장하는 파일. 테이블 하나당 한개씩 작성 namespace: 작업하는 테이블들을 
+	구분해주기 위한 식별자 -->
+<mapper namespace="com.mapper.MemberMapper">
+
+	<insert id="register" parameterType="Member">
+		insert into member
+		values(#{id},#{pw},#{email},#{lastName},#{firstName},#{nickname},#{address},
+		#{phone},
+		#{birthday},
+		curdate(),
+		#{favorite})
+	</insert>
+
+	<select id="selectAll" resultType="Member">
+		select * from member
+	</select>
+
+	<select id="loginCheck" parameterType="java.lang.String"
+		resultType="Member">
+		select * from member where id = #{id}
+	</select>
+
+	<select id="getProfile" parameterType="java.lang.String"
+		resultType="Member">
+		select a.*, concat(b.city," ", b.gugun," ", b.dong) as
+		favoriteAddress
+		from member as a join dongcode as b
+		on
+		a.favorite=b.dongcode
+		where a.id= #{id}
+	</select>
+
+	<update id="update" parameterType="Member">
+		update member set pw = #{pw},
+		email=#{email}, nickname=#{nickname}, address=#{address},
+		phone=#{phone}, favorite=#{favorite}
+		where id=#{id}
+	</update>
+
+
+</mapper>

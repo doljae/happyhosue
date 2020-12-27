@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.BoardMapper">
+	<!--<select id="getBoard" parameterType="java.lang.String" resultType="Board"> 
+		SELECT * FROM board WHERE id = #{id} </select> -->
+
+	<select id="getBoards" resultType="Board">
+		SELECT no, title, id, wdate, count, category
+		FROM board order by no
+		desc;
+	</select>
+
+	<select id="getBoard" resultType="Board" parameterType="int">
+		SELECT *
+		FROM board where no=#{no}
+	</select>
+
+	<update id="updateBoard" parameterType="Board">
+		UPDATE board
+		SET title =
+		#{title}, content = #{content}
+		WHERE no = #{no}
+	</update>
+
+	<update id="increaseViewCount" parameterType="int">
+		UPDATE board
+		SET
+		count = count + 1
+		WHERE no = #{no}
+	</update>
+
+	<!-- <select id="getBoardByName" resultType="Board" parameterType="java.lang.String"> 
+		SELECT * FROM board Where lastName like CONCAT('$', #{name}, '$') OR firstName 
+		like CONCAT('$', #{name}, '$') </select> -->
+
+	<insert id="postBoard" parameterType="Board">
+		INSERT INTO board
+		VALUES(null, #{title}, #{content}, #{id}, 0, #{category}, curdate())
+	</insert>
+
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board
+		WHERE no
+		= #{no}
+	</delete>
+
+
+</mapper>
